@@ -3,8 +3,8 @@ export default () => ({
   database: {
     host: process.env.DB_HOST,
     port: parseInt(process.env.DB_PORT, 10) || 3306,
-    username: process.env.DB_USERNAME,
-    database: process.env.DB_DATABASE,
+    user: process.env.DB_USERNAME,
+    name: process.env.DB_DATABASE,
   },
   jwt: {
     expiration: process.env.JWT_EXPIRATION_TIME,
