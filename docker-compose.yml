@@ -1,0 +1,16 @@
+version: "3"
+services:
+  mysql:
+    image: mysql
+    restart: always
+    ports:
+      - '3306:3306'
+    expose: 
+      - '3306'
+    volumes:
+      - ./mysql:/mysql
+    environment:
+      MYSQL_DATABASE: 'films'
+      MYSQL_USER: 'mysql'
+      MYSQL_PASSWORD: 'mysql'
+      MYSQL_ROOT_PASSWORD: '123456'
