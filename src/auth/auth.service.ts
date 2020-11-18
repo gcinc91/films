@@ -5,8 +5,6 @@ import { User } from 'src/users/entities/user.entity';
 import { UsersService } from 'src/users/users.service';
 import * as bcrypt from 'bcrypt';
 
-
-
 @Injectable()
 export class AuthService {
   constructor(
@@ -15,16 +13,18 @@ export class AuthService {
   ) { }
 
   async validateUser(userData: UserDto): Promise<User> {
+
     const user = await this.userService.findByUsername(userData.username);
-    const passwordOk = await bcrypt.compareSync(userData.password, user.password);
-    if (
-      !user ||
-      !passwordOk
-    ) {
+
+    if (!user) {
       throw new UnauthorizedException('user or password are incorrect')
     }
-
+    const passwordOk = await bcrypt.compareSync(userData.password, user.password);
+    if (!passwordOk) {
+      throw new UnauthorizedException('user or password are incorrect')
+    }
     return user;
+
   }
 
   public async signIn(userData: UserDto): Promise<any | { status: number }> {
@@ -37,7 +37,7 @@ export class AuthService {
 
       return accessToken;
 
-    });
+    })
   }
 
   public async signUp(user: UserDto): Promise<any | { status: number }> {
