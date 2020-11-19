@@ -1,7 +1,7 @@
-import { Body, Controller, Delete, Get, Param, Post, Put, Req, UploadedFile, UseGuards, UseInterceptors } from '@nestjs/common';
+import { Body, Controller, Delete, Get, Param, Post, Put, Query, Req, UploadedFile, UseGuards, UseInterceptors } from '@nestjs/common';
 import { FilmsService } from './films.service';
-import { ApiBearerAuth, ApiConsumes, ApiParam, ApiTags } from '@nestjs/swagger';
-import { FilmDto, UpdateFilmDTO } from './dto/film.dto';
+import { ApiBearerAuth, ApiConsumes, ApiParam, ApiQuery, ApiTags } from '@nestjs/swagger';
+import { FilmDto, pageDTO, UpdateFilmDTO } from './dto/film.dto';
 import { FileInterceptor } from '@nestjs/platform-express';
 import { ApiFile } from 'lib/customDecorator';
 import { diskStorage } from 'multer';
@@ -24,8 +24,14 @@ export class FilmsController {
   }
 
   @Get()
-  getAllFilm() {
-    return this.filmsService.getAllFilm()
+  @ApiQuery({
+    name: 'page',
+    required: false
+  })
+  getAllFilm(
+    @Query() query: pageDTO
+  ) {
+    return this.filmsService.getAllFilm(query.page)
   }
 
   @Get('/:id')

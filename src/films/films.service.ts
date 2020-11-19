@@ -20,8 +20,13 @@ export class FilmsService {
     return this.repository.save(filmReq)
   }
 
-  getAllFilm() {
-    return this.repository.find()
+  getAllFilm(page = 1) {
+    const skipPage = page === 1 ? 0 : (page - 1) * 10;
+    console.log(skipPage)
+    return this.repository.find({
+      skip: skipPage,
+      take: 10
+    })
   }
 
   getFilm(id) {

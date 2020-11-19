@@ -1,4 +1,4 @@
-import { ApiProperty } from '@nestjs/swagger';
+import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
 
 export class FilmDto {
 
@@ -14,6 +14,11 @@ export class FilmDto {
   @ApiProperty({ enum: ['Terror', 'Drama', 'Comedia', 'Acción'] })
   gender: string;
 
+}
+
+export class pageDTO {
+  @ApiPropertyOptional()
+  page: number;
 }
 
 export class UpdateFilmDTO extends FilmDto { }
