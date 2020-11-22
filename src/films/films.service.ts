@@ -20,12 +20,24 @@ export class FilmsService {
     return this.repository.save(filmReq)
   }
 
-  getAllFilm(page = 1) {
+  async getAllFilm(page = 1, filters) {
     const skipPage = page === 1 ? 0 : (page - 1) * 10;
-    console.log(skipPage)
-    return this.repository.find({
+    let filterObj;
+    let findObject = {
       skip: skipPage,
-      take: 10
+      take: 10,
+    };
+
+    if (filters) {
+      const gender = await this.genderService.getGenderByName(filters);
+      filterObj = {
+        gender
+      }
+    }
+
+    return this.repository.find({
+      ...findObject,
+      where: filterObj
     })
   }
 
